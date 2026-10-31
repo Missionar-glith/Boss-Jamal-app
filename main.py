@@ -1,59 +1,79 @@
 import streamlit as st
 
-st.set_page_config(page_title="Boss Jamal Store", page_icon="📱", layout="wide")
-st.title("📱 Boss Jamal Phones & Laptops 👑")
+st.set_page_config(page_title="Boss Jamal Store", page_icon="👑", layout="centered")
+
+# --- PASSWORD PROTECTION ---
+st.title("👑 Boss Jamal Phones & Laptops")
+password = st.text_input("Enter Password to enter shop:", type="password")
+
+if password != "letmein.so":
+    st.warning("🔒 Enter password: letmein.so to continue")
+    st.stop()
+
+st.success("Welcome Boss!")
+st.balloons()
+
+# --- YOUR SHOP ---
+st.markdown("## 📱 Boss Jamal Phones & Laptops")
 st.write("No.1 Phone Seller for Lagos! Fast Delivery!")
+st.markdown("---")
 
-# --- PRODUCTS - YOU FIT CHANGE PRICE ---
-products = [
-    {"name": "iPhone 14 Pro Max", "price": 850000, "img": "📱"},
-    {"name": "Samsung S23 Ultra", "price": 750000, "img": "📱"},
-    {"name": "HP Laptop 15", "price": 450000, "img": "💻"},
-    {"name": "iPhone 13", "price": 550000, "img": "📱"},
-    {"name": "Tecno Camon 20", "price": 150000, "img": "📱"},
-    {"name": "Lenovo ThinkPad", "price": 380000, "img": "💻"},
-]
+# --- ADVERT / CONTACT SECTION - THIS NA THE MAIN THING ---
+st.markdown("## 🚀 DO YOU NEED AN APP LIKE THIS?")
 
-# --- SEARCH ---
-search = st.text_input("🔍 Search phone or laptop...")
-if search:
-    products = [p for p in products if search.lower() in p["name"].lower()]
+st.markdown("""
+### 👑 Contact Boss Jamal - I Go Build Am For You!
 
-# --- SHOW PRODUCTS ---
-if "cart" not in st.session_state:
-    st.session_state.cart = []
+**I dey build apps for any business:**
+- 📱 Phone Shops
+- 🍔 Restaurants & Food
+- 👗 Boutiques & Fashion
+- 💈 Salons & Barbers
+- 🛒 Supermarkets
 
-cols = st.columns(2)
-for i, p in enumerate(products):
-    with cols[i % 2]:
-        st.markdown(f"### {p['img']} {p['name']}")
-        st.markdown(f"**₦{p['price']:,}**")
-        if st.button(f"Add to Cart - {p['name']}", key=f"btn_{i}"):
-            st.session_state.cart.append(p)
-            st.success(f"{p['name']} added!")
-            st.balloons()
+**Starting from ₦20,000 only!**
+""")
+
+# --- YOUR CONTACT FORM ---
+with st.form("contact_form"):
+    st.markdown("### 📝 Fill This Form If You Need App")
+    name = st.text_input("Your Full Name")
+    email = st.text_input("Your Email Address")
+    whatsapp_num = st.text_input("Your WhatsApp Number")
+    business = st.text_input("What Business You Get?")
+    
+    st.markdown("#### Follow Boss Jamal:")
+    st.text_input("Facebook Username", placeholder="Boss Jamal Facebook")
+    st.text_input("TikTok Username", placeholder="@bossjamal")
+    st.text_input("Instagram Username", placeholder="@bossjamal_lagos")
+    
+    submitted = st.form_submit_button("📱 Send To Boss Jamal on WhatsApp")
+    
+    if submitted:
+        if name and whatsapp_num:
+            msg = f"Hello Boss Jamal! My name is {name}, I need app for my {business}. My email {email} and WhatsApp {whatsapp_num}"
+            link = f"https://wa.me/2348141957048?text={msg.replace(' ', '%20')}"
+            st.success(f"Thanks {name}! Click below to chat Boss Jamal")
+            st.link_button("📱 Chat Boss Jamal Now!", link)
+        else:
+            st.error("Please enter Name and WhatsApp number")
 
 st.markdown("---")
 
-# --- CART ---
-st.subheader(f"🛒 Your Cart ({len(st.session_state.cart)} items)")
-total = 0
-for item in st.session_state.cart:
-    st.write(f"- {item['name']} - ₦{item['price']:,}")
-    total += item['price']
+# --- BOSS JAMAL REAL CONTACTS ---
+st.markdown("### 👑 REACH BOSS JAMAL DIRECTLY")
+st.markdown("""
+**📱 WhatsApp:** 08141957048  
+**📧 Email:** bossjamal@gmail.com  
+**👍 Facebook:** Boss Jamal Lagos  
+**🎵 TikTok:** @bossjamal  
+**📸 Instagram:** @bossjamal_lagos  
 
-if total > 0:
-    st.markdown(f"### Total: ₦{total:,}")
-    whatsapp_msg = f"Hello Boss Jamal! I want to buy: {[x['name'] for x in st.session_state.cart]} Total ₦{total:,}"
-    link = f"https://wa.me/2348141957048?text={whatsapp_msg.replace(' ', '%20')}"
-    st.link_button("📱 Order Now on WhatsApp", link)
-    if st.button("Clear Cart"):
-        st.session_state.cart = []
-        st.rerun()
+**Click Below To Chat Me Now!**
+""")
 
-# --- YOUR ADVERT ---
+whatsapp_link = "https://wa.me/2348141957048?text=Hello%20Boss%20Jamal!%20I%20need%20app%20like%20yours!"
+st.link_button("🔥 📱 CHAT BOSS JAMAL ON WHATSAPP - 08141957048", whatsapp_link)
+
 st.markdown("---")
-st.markdown("### 🚀 Need An App Like This For Your Business?")
-st.success("Your customers fit order online like Jumia!")
-st.link_button("📱 DM Boss Jamal On WhatsApp", "https://wa.me/2348141957048")
-st.caption("Built by Boss Jamal - Lagos Tech Boss 👑")
+st.caption("Built by Boss Jamal - Lagos Tech Boss 👑 | Password: letmein.so")
